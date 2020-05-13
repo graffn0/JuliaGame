@@ -1,0 +1,10 @@
+{
+    "Asteroid": {
+        "RotateStructure": { "texture": "asteroid1", "sizeX": 45, "sizeY": 45 },
+        "PhysicsComponent": {
+            "circles": [{ "innerRadius": 0, "outerRadius": 20, "offsetX": 0, "offsetY": 0 }],
+            "mass": 50, "mainShape": "Circle", "angularVelocity": 1
+        },
+        "Input": {}
+    }
+}

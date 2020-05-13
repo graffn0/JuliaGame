@@ -1,0 +1,13 @@
+[
+    {
+        "type": "title",
+        "title": "Window"
+    },
+    {
+        "type": "bool",
+        "title": "Fullscreen",
+        "desc": "Set the window in windowed or fullscreen",
+        "section": "Graphics",
+        "key": "fullscreen"
+    }
+]

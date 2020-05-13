@@ -1,0 +1,110 @@
+#:kivy 1.9.0
+#:import get_asset_path __main__.get_asset_path
+#:set map_layers ['map_layer%d' % i for i in range(4)]
+
+TestGame:
+
+<TestGame>:
+    gameworld: gameworld
+    camera1: camera1
+    app: app
+    GameWorld:
+        id: gameworld
+        gamescreenmanager: gamescreenmanager
+        size_of_gameworld: 440*1024
+        system_count: 8
+        zones: {'general': 100000, 'map': 200000, 'touch': 100}
+        PositionSystem2D:
+            system_id: 'position'
+            gameworld: gameworld
+            zones: ['general', 'touch']
+        RotateSystem2D:
+            system_id: 'rotate'
+            gameworld: gameworld
+            zones: ['general']
+        CymunkPhysics:
+            gameworld: root.gameworld
+            zones: ['general']
+        CymunkTouchSystem:
+            gameworld: root.gameworld
+            zones: ['touch']
+            zone_to_use: 'touch'
+            physics_system: 'cymunk_physics'
+            touch_radius: 30
+        # AnimationSystem:
+        #     system_id: 'animation'
+        #     gameworld: gameworld
+        #     updateable: True
+        #     zones: ['general']
+        RotateRenderer:
+            system_id: 'rotate_renderer'
+            gameworld: gameworld
+            updateable: True
+            gameview: 'camera1'
+            shader_source: 'assets/glsl/positionrotateshader.glsl'
+            zones: ['general']
+        # RotateRenderer:
+        #     system_id: 'mid_renderer'
+        #     gameworld: gameworld
+        #     updateable: True
+        #     gameview: 'camera1'
+        #     shader_source: 'assets/glsl/positionrotateshader.glsl'
+        #     zones: ['general']
+        # RotateRenderer:
+        #     system_id: 'bg_renderer'
+        #     gameworld: gameworld
+        #     updateable: True
+        #     gameview: 'camera1'
+        #     shader_source: 'assets/glsl/positionrotateshader.glsl'
+        #     zones: ['general']
+        MoveSystem:
+            system_id: 'input'
+            updateable: True
+            gameworld: gameworld
+            zones: ['general']
+        ColorSystem:
+            system_id: 'color'
+            gameworld: gameworld
+            zones: ['general', 'map']
+        MapSystem:
+            system_id: 'tile_map'
+            id: tile_map
+            gameworld: gameworld
+            zones: ['general', 'map']
+        GameView:
+            system_id: 'camera1'
+            gameworld: gameworld
+            size: root.size
+            window_size: root.size
+            pos: root.pos
+            do_scroll_lock: False
+            id: camera1
+            do_scroll: True
+    GameScreenManager:
+        id: gamescreenmanager
+        size: root.size
+        pos: root.pos
+        gameworld: gameworld
+
+<GameScreenManager>:
+    MainScreen:
+        id: main_screen
+
+<MainScreen@GameScreen>:
+    name: 'main'
+    FloatLayout:
+        Button:
+            text: 'Draw Some Stuff'
+            size_hint: (.2, .1)
+            pos_hint: {'x': .025, 'y': .025}
+            on_release: app.root.draw_some_stuff()
+        Button:
+            text: 'Settings'
+            size_hint: (.2, .1)
+            pos_hint: {'x': .800, 'y': .850}
+            on_release: app.open_settings()
+        Label:
+            text: str(0)
+            size_hint: (.2, .1)
+            font_size: 24
+            pos_hint: {'x': .425, 'y': .025}
